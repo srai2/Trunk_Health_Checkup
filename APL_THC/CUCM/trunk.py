@@ -7,9 +7,9 @@ from multiprocessing import Process, Queue, Lock
 
 
 class SEA_CUCM:
-    def __init__(self, ip):
+    def __init__(self):
 
-        tng.api.create_devices(dict(sea_ip=ip),
+        tng.api.create_devices(dict(sea_ip=tb_config.sea_cucm1),
                                defaults=dict(username=tb_config.cucm_username,
                                              password=tb_config.cucm_password,
                                              rootpassword=tb_config.cucm_password))
@@ -18,9 +18,9 @@ class SEA_CUCM:
         self.cucm_xlib=xlib.api.create_device(self.cucm)
 
 class LHR_CUCM:
-    def __init__(self, ip):
+    def __init__(self):
 
-        tng.api.create_devices(dict(lhr_ip=ip),
+        tng.api.create_devices(dict(lhr_ip=tb_config.lhr_cucm1),
                                defaults=dict(username=tb_config.cucm_username,
                                              password=tb_config.cucm_password,
                                              rootpassword=tb_config.cucm_password))
@@ -29,9 +29,9 @@ class LHR_CUCM:
         self.cucm_xlib=xlib.api.create_device(self.cucm)
 
 class SFO_CUCM:
-    def __init__(self, ip):
+    def __init__(self):
 
-        tng.api.create_devices(dict(sfo_ip=ip),
+        tng.api.create_devices(dict(sfo_ip=tb_config.sfo_cucm1),
                                defaults=dict(username=tb_config.cucm_username,
                                              password=tb_config.cucm_password,
                                              rootpassword=tb_config.cucm_password))
@@ -44,6 +44,29 @@ class TRUNK:
         self.cucm = clstr.cucm
         self.cucm_xlib = clstr.cucm_xlib
         self.trunks = trunks or self.get_trunk_names()
+
+    def get_trunk_values(self):
+        trunk_values=[]
+        for trunk_name in self.trunks:
+            sip_trunk = self.cucm_xlib.get_sip_trunk(trunk_name)
+            sip_profile = str(sip_trunk.sip_profile_name)
+            security_profile = str(sip_trunk.security_profile_name)
+            trp = str(sip_trunk.use_trusted_relay_point)
+            device_pool = str(sip_trunk.device_pool_name)
+            trunk_values.append((trunk_name, sip_profile, security_profile, trp, device_pool))
+        return trunk_values
+
+    def get_route_pattern_names(self):
+        '''Takes cucm_xlib as argument and returns dictionary with route pattern and associated trunk '''
+        route_uuid = self.cucm_xlib._get_uuids_helper('listRoutePattern', criteria='pattern',  value='%')
+        route_patterns = {}
+        for r in route_uuid:
+            rp = self.cucm_xlib._get_uuid_helper('getRoutePattern',  criteria='uuid', value=r)
+            try:
+                route_patterns[str(rp['routePattern'].pattern)] = str(rp['routePattern'].destination.gatewayName.value)
+            except:
+                route_patterns[str(rp['routePattern'].pattern)] = None
+        return route_patterns
 
     def get_trunk_status(self):
         print "getting trunk status"

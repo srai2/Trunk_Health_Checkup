@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -5,11 +6,39 @@
     <meta http-equiv="refresh" content="30" />
     {% load  staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
-    <title>Trunk Health Check Up And Route Pattern</title>
+    <title>Trunk Health Check Up</title>
+    <script type="text/javascript">
+    function selectVideo(obj){
+        var urlString = "http://127.0.0.1:8000/gb_thc/?trunk=";
+        var selectedVideo = obj.options[obj.selectedIndex];
+        if (selectedVideo.value != "nothing"){
+                window.location = urlString + selectedVideo.value;
+        }
+    }
+</script>
+
 </head>
 <body>
     <div id="header">
-            <h3>APL Test Bed Health Check Up</h3>
+            <h3>APL Test Bed Health Check Up
+        <form>
+     <select onchange="selectVideo(this)">
+         <option value="nothing">Select trunk name from this list</option>
+        {% for up_trunk,down_trunk,unknown_trunk in trunk_status %}
+         {% if up_trunk %}
+         <option value={{ up_trunk.name }}>{{ up_trunk.name }}</option>
+         {% endif %}
+         {% if down_trunk %}
+         <option value={{ down_trunk.name }}>{{ down_trunk.name }}</option>
+         {% endif %}
+         {% if unknown_trunk %}
+         <option value={{ unknown_trunk.name }}>{{ unknown_trunk.name }}</option>
+         {% endif %}
+           {% endfor %}
+
+</select>
+</form></h3>
+
     </div>
     <div id="nav">
         <strong align="center">Trunk Status</strong>
@@ -30,39 +59,70 @@
 
     <div id="section" >
         <div id="sea_trunk_health" style="display:block">
+            {% if trunk_status %}
             <table style="width:100%" border="3">
-                <caption><font color="red">Trunks Health Check Up </font> </caption>
-                <tr>
+
+             <tr>
                     <th>{{ cluster }} UP TRUNKS </th>
                     <th>{{ cluster }} DOWN TRUNKS </th>
                     <th>{{ cluster }} UNKNOWN TRUNKS</th>
                 </tr>
                 {% for up_trunk,down_trunk,unknown_trunk in trunk_status %}
                     <tr >
-                        <td><a  class="tooltip" href="#" ><font color="green">{{ up_trunk.name }}</font>
+                        <td><b  style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="green">{{ up_trunk.name }}</font>
                             <span class="custom define">
                             <em>SIP Profile:</em>{{ up_trunk.sip_profile }}
                             <em>Security Profile:</em>{{ up_trunk.security_profile }}
                             <em>Trusted Relay Point:</em>{{ up_trunk.trp }}
                             <em>Device Pool:</em>{{ up_trunk.device_pool }}
-                            </span></a>
+                            </span></b>
                         </td>
-                        <td><a class="tooltip" href="#" bubbletooltip="yet to implement"><font color="red">{{ down_trunk.name }}</font>
+                        <td><b style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="red">{{ down_trunk.name }}</font>
                             <span class="custom define">
                             <em>SIP Profile:</em>{{ down_trunk.sip_profile }}
                             <em>Security Profile:</em>{{ down_trunk.security_profile }}
                             <em>Trusted Relay Point:</em>{{ down_trunk.trp }}
                             <em>Device Pool:</em>{{ down_trunk.device_pool }}
-                            </span></a>
+                            </span></b>
                         </td>
-                        <td><a class="tooltip" href="#" bubbletooltip="yet to implement"><font color="#888888">{{ unknown_trunk.name }}</font>
+                        <td><b style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="#888888">{{ unknown_trunk.name }}</font>
                             <span class="custom define">
                             <em>SIP Profile:</em>{{ unknown_trunk.sip_profile }}
                             <em>Security Profile:</em>{{ unknown_trunk.security_profile }}
                             <em>Trusted Relay Point:</em>{{ unknown_trunk.trp }}
                             <em>Device Pool:</em>{{ unknown_trunk.device_pool }}
-                            </span></a>
+                            </span></b>
                         </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+    </div>
+
+
+<div id="section" >
+        <div id="sea_trunk_health" style="display:block">
+            <table style="width:100%" border="3">
+
+             <tr>
+                 <th> Cluster</th>
+                    <th>Trunk Name </th>
+                    <th>Status </th>
+                    <th>SIP Profile</th>
+                    <th>Security Profile</th>
+                    <th>Trusted Relay Point</th>
+                    <th>Device Pool</th>
+                </tr>
+                {% for trnk in trunk %}
+                    <tr >
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ trnk.cluster }}</font></td>
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ trnk.name }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ trnk.status }}</font> </td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.sip_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.security_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.trp }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.device_pool }}</font></td>
                     </tr>
                 {% endfor %}
             </table>

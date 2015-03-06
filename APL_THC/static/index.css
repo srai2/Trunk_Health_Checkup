@@ -19,6 +19,11 @@
     padding:0px;
 }
 
+select {
+    float:right;
+    clear:both;
+}
+
 caption
 {
 background-color: #eeeeff;

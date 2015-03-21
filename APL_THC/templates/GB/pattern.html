@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="30" />
+    {% load  staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
+    <title>Trunk Health Check Up</title>
+    <script type="text/javascript">
+    function selectVideo(){
+
+        var urlString = "http://127.0.0.1:8000/gb_thc/search/";
+        value = document.getElementById("dial_digit").value;
+        window.location = urlString + value;
+        alert(window.location)
+    }
+</script>
+
+</head>
+<body>
+    <div id="header">
+            <h3>APL Test Bed Health Check Up
+        <form onsubmit="return selectVideo()">
+        <div class="input-group">
+            <input type="text" id="dial_digit" placeholder="Search for...">
+            <button type="submit" value="Submit">Go!</button>
+        </div>
+    </div>
+</form></h3>
+
+    </div>
+      <div id="nav">
+        <strong align="center">Trunk Status</strong>
+        <ul>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/sea">SEA</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/lhr">LHR</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/sfo">SFO</a></li>
+        </ul>
+        <strong align="center">Route Pattern</strong>
+        <ul>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=sea">SEA</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=lhr">LHR</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=sfo">SFO</a></li>
+        </ul>
+        <strong align="center">CUCM</strong>
+            <ul>
+            <strong>
+                <li><a href="http://10.12.4.11/">SEA</a><br/></li>
+                <li><a href="http://10.8.4.11/">LHR</a><br/></li>
+                <li><a href="http://10.8.3.21/">SFO</a><br/><br/></li>
+            </strong>
+            </ul>
+    </div>
+
+ <div id="section" >
+     {% if route_pattern_status %}
+        <div id="sea_trunk_health" style="display:block">
+            <table style="width:100%" border="3">
+
+             <tr>
+                    <th>{{ cluster }} UP Route Pattern </th>
+                    <th>{{ cluster }} DOWN Route Pattern </th>
+                    <th>{{ cluster }} UNKNOWN Route Pattern</th>
+                </tr>
+                {% for up_trunk,down_trunk,unknown_trunk in route_pattern_status %}
+                    <tr >
+                        <td><b  style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="green">{{ up_trunk.pattern }}</font>
+                            <span class="custom define">
+                            <em>Trunk Name:</em>{{ up_trunk.trunk.name }}
+                            <em>SIP Profile:</em>{{ up_trunk.trunk.sip_profile }}
+                            <em>Security Profile:</em>{{ up_trunk.trunk.security_profile }}
+                            <em>Trusted Relay Point:</em>{{ up_trunk.trunk.trp }}
+                            <em>Device Pool:</em>{{ up_trunk.trunk.device_pool }}
+                            </span></b></td>
+
+                        <td><b  style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="green">{{ down_trunk.pattern }}</font>
+                            <span class="custom define">
+                            <em>Trunk Name:</em>{{ down_trunk.trunk.name }}
+                            <em>SIP Profile:</em>{{ down_trunk.trunk.sip_profile }}
+                            <em>Security Profile:</em>{{ down_trunk.trunk.security_profile }}
+                            <em>Trusted Relay Point:</em>{{ down_trunk.trunk.trp }}
+                            <em>Device Pool:</em>{{ down_trunk.trunk.device_pool }}
+                            </span></b></td>
+
+                        <td><b  style="display:block;font-weight:bold" class="tooltip" href="#" ><font color="green">{{ unknown_trunk.pattern }}</font>
+                            <span class="custom define">
+                            <em>Trunk Name:</em>{{ unknown_trunk.trunk.name }}
+                            <em>SIP Profile:</em>{{ unknown_trunk.trunk.sip_profile }}
+                            <em>Security Profile:</em>{{ unknown_trunk.trunk.security_profile }}
+                            <em>Trusted Relay Point:</em>{{ unknown_trunk.trunk.trp }}
+                            <em>Device Pool:</em>{{ unknown_trunk.trunk.device_pool }}
+                            </span></b></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+     {% endif %}
+    </div>
+
+
+</body>
+</html>

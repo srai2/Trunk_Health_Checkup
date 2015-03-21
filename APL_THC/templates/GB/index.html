@@ -9,7 +9,7 @@
     <title>Trunk Health Check Up</title>
     <script type="text/javascript">
     function selectVideo(obj){
-        var urlString = "http://127.0.0.1:8000/gb_thc/?trunk=";
+        var urlString = document.URL +"?trunk=";
         var selectedVideo = obj.options[obj.selectedIndex];
         if (selectedVideo.value != "nothing"){
                 window.location = urlString + selectedVideo.value;
@@ -43,9 +43,15 @@
     <div id="nav">
         <strong align="center">Trunk Status</strong>
         <ul>
-            <li><a style="display:block;font-weight:bold" href="?cluster=sea">SEA</a></li>
-            <li><a style="display:block;font-weight:bold" href="?cluster=lhr">LHR</a></li>
-            <li><a style="display:block;font-weight:bold" href="?cluster=sfo">SFO</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/sea">SEA</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/lhr">LHR</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/sfo">SFO</a></li>
+        </ul>
+        <strong align="center">Route Pattern</strong>
+        <ul>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/sea">SEA</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=lhr">LHR</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=sfo">SFO</a></li>
         </ul>
         <strong align="center">CUCM</strong>
             <ul>
@@ -102,6 +108,7 @@
 
 
 <div id="section" >
+    {% if trunk %}
         <div id="sea_trunk_health" style="display:block">
             <table style="width:100%" border="3">
 
@@ -113,6 +120,7 @@
                     <th>Security Profile</th>
                     <th>Trusted Relay Point</th>
                     <th>Device Pool</th>
+                 <th>Route Pattern</th>
                 </tr>
                 {% for trnk in trunk %}
                     <tr >
@@ -123,10 +131,12 @@
                         <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.security_profile }}</font></td>
                         <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.trp }}</font></td>
                         <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.device_pool }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> <br/>{% for pattern in trnk.route_pattern.all %}{{ pattern }}<br/>{% endfor %}</font></td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
+    {% endif %}
     </div>
 
 </body>

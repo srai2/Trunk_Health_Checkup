@@ -10,7 +10,7 @@
     <script type="text/javascript">
     function selectVideo(){
 
-        var urlString = "http://127.0.0.1:8000/gb_thc/search/";
+        var urlString = "http://127.0.0.1:8000/gb_thc/route_search/";
         value = document.getElementById("dial_digit").value;
         window.location = urlString + value;
         alert(window.location)
@@ -39,9 +39,9 @@
         </ul>
         <strong align="center">Route Pattern</strong>
         <ul>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=sea">SEA</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=lhr">LHR</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/?cluster=sfo">SFO</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/sea">SEA</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/lhr">LHR</a></li>
+            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/sfo">SFO</a></li>
         </ul>
         <strong align="center">CUCM</strong>
             <ul>

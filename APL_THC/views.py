@@ -23,13 +23,8 @@ def index(request, cluster=None):
 
     return render_to_response('GB/index.html', context_dict, context)
 
-def pattern(request, cluster=None, dial_digit=None):
+def pattern(request, cluster=None):
     context = RequestContext(request)
-    patterns = RoutePattern.objects.all()
-    pattern_list=[]
-    for trunk_pattern in patterns:
-        pattern_list.append(trunk_pattern.pattern)
-    values = search_dial_plan(dial_digit, pattern_list)
     cluster= cluster or "sea"
     context_dict = {'cluster': cluster.upper(),
         'route_pattern_status':     map(None,
@@ -39,4 +34,22 @@ def pattern(request, cluster=None, dial_digit=None):
     )}
 
     return render_to_response('GB/pattern.html', context_dict, context)
+
+def route_search(request, dial_digit=None):
+    context = RequestContext(request)
+    patterns = RoutePattern.objects.all()
+    pattern_list=[]
+    route_list=[]
+    for trunk_pattern in patterns:
+       pattern_list.append(trunk_pattern.pattern)
+
+    for dial_string in search_dial_plan(dial_digit, pattern_list):
+        route_list.append(RoutePattern.objects.filter(pattern=dial_string))
+    cluster= "sea"
+    context_dict = {'cluster': cluster.upper(),
+        'route_pattern_status': route_list
+    }
+
+    return render_to_response('GB/search_pattern.html', context_dict, context)
+
 

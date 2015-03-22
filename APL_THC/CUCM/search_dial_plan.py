@@ -47,6 +47,7 @@ def get_pattern_with_proper_length(pattern, length):
 
 
 def search_dial_plan(string, pattern):
+    dial_list = []
     string_length= len(string)
     for route in Pattern(pattern):
        dial_pattern = get_pattern_with_proper_length(route[0], string_length)
@@ -55,7 +56,8 @@ def search_dial_plan(string, pattern):
        else:
            regex = re.compile(dial_pattern)
            if regex.match(string):
-               print "match"
                print route[1]
+               dial_list.append(route[1])
+    return dial_list
 
 

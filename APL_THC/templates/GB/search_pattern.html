@@ -108,7 +108,7 @@
 
 
 <div id="section" >
-    {% if trunk %}
+
         <div id="sea_trunk_health" style="display:block">
             <table style="width:100%" border="3">
 
@@ -122,21 +122,23 @@
                     <th>Device Pool</th>
                  <th>Route Pattern</th>
                 </tr>
-                {% for trnk in trunk %}
+                {% for patterns in route_pattern_status %}
+                {% for pattern in patterns %}
                     <tr >
-                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ trnk.cluster }}</font></td>
-                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ trnk.name }}</font></td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ trnk.status }}</font> </td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.sip_profile }}</font></td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.security_profile }}</font></td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.trp }}</font></td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ trnk.device_pool }}</font></td>
-                        <td><b style="display:block;font-weight:bold"><font color="blue"> <br/>{% for pattern in trnk.route_pattern.all %}{{ pattern }}<br/>{% endfor %}</font></td>
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk}}</font></td>
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk.name }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ pattern.trunk.status }}</font> </td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.sip_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.security_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.trp }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.device_pool }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ pattern.pattern }}</font></td>
                     </tr>
+                {% endfor %}
                 {% endfor %}
             </table>
         </div>
-    {% endif %}
+
     </div>
 
 </body>

@@ -7,53 +7,14 @@
     {% load  staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
     <title>Trunk Health Check Up</title>
-    <script type="text/javascript">
-    function selectVideo(){
-
-        var urlString = "http://127.0.0.1:8000/gb_thc/route_search/";
-        value = document.getElementById("dial_digit").value;
-        window.location = urlString + value;
-        alert(window.location)
-    }
-</script>
 
 </head>
 <body>
     <div id="header">
-            <h3>APL Test Bed Health Check Up
-        <form onsubmit="return selectVideo()">
-        <div class="input-group">
-            <input type="text" id="dial_digit" placeholder="Search for...">
-            <button type="submit" value="Submit">Go!</button>
+            <h3>Details of Route Pattern</h3>
         </div>
-    </div>
-</form></h3>
 
-    </div>
-    <div id="nav">
-        <strong align="center">Trunk Status</strong>
-        <ul>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/sea">SEA</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/lhr">LHR</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/sfo">SFO</a></li>
-        </ul>
-        <strong align="center">Route Pattern</strong>
-        <ul>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/sea">SEA</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/lhr">LHR</a></li>
-            <li><a style="display:block;font-weight:bold" href="/gb_thc/route_pattern/sfo">SFO</a></li>
-        </ul>
-        <strong align="center">CUCM</strong>
-            <ul>
-            <strong>
-                <li><a href="http://10.12.4.11/">SEA</a><br/></li>
-                <li><a href="http://10.8.4.11/">LHR</a><br/></li>
-                <li><a href="http://10.8.3.21/">SFO</a><br/><br/></li>
-            </strong>
-            </ul>
-    </div>
-
-<div id="section" >
+<div id="nav2" >
 
         <div id="sea_trunk_health" style="display:block">
             <table style="width:100%" border="3">

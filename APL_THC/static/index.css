@@ -18,6 +18,15 @@
     float:right;
     padding:0px;
 }
+#footer {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:0px;
+    width:100%;
+    position: fixed;
+    bottom: 0;
+}
 
 select {
     float:right;

@@ -10,7 +10,7 @@ def split_initial(route):
         route=route[1:]
     if route[:2] == "44":
         route=route[2:]
-    return " ".join(word.rstrip("X") for word in route.split())
+    return route.replace("X", "[0-9]", 10)
 
 def Pattern(routes):
     dial_patterns = []
@@ -19,9 +19,9 @@ def Pattern(routes):
         route = split_initial(route)
         if route[:2]== "44":
             route = route[2:]
-        elif route[:1]=="9":
+        elif route[0]=="9" and route[1] != "0" and route[1] != "1":
             route = route[1:]
-        dial_patterns.append((route.replace("X", "[0-9]", 5), pattern))
+        dial_patterns.append((route, pattern))
     return dial_patterns
 
 
@@ -58,6 +58,6 @@ def search_dial_plan(string, pattern):
            if regex.match(string):
                print route[1]
                dial_list.append(route[1])
-    return dial_list
+    return list(set(dial_list))
 
 

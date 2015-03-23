@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djcelery',
     'APL_THC',
 )
 
@@ -100,13 +99,3 @@ STATICFILES_DIRS = (
 )
 
 SITE_ID = 1
-
-import djcelery
-djcelery.setup_loader()
-
-BROKER_HOST = "localhost"
-BROKER_PORT = 5672
-BROKER_USER = "guest"
-BROKER_PASSWORD = "guest"
-BROKER_VHOST = "/"
-BROKER_URL = 'sqla+sqlite:///db.sqlite'

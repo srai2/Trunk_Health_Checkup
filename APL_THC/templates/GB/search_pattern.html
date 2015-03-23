@@ -32,7 +32,7 @@
                 {% for patterns in route_pattern_status %}
                 {% for pattern in patterns %}
                     <tr >
-                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk}}</font></td>
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk.cluster}}</font></td>
                         <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk.name }}</font></td>
                         <td><b style="display:block;font-weight:bold"><font color="blue"> {{ pattern.trunk.status }}</font> </td>
                         <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.sip_profile }}</font></td>

@@ -11,7 +11,8 @@ def index(request, cluster=None):
 
     if request.GET:
          name = request.GET['trunk']
-         context_dict = {'trunk': Trunk.objects.filter(name=name)}
+         context_dict = {'patterns': RoutePattern.objects.filter(trunk__name=name)}
+         return render_to_response('GB/search_pattern.html', context_dict, context)
     else:
         context_dict = {'cluster': cluster.upper(),
             'trunk_status':     map(None,

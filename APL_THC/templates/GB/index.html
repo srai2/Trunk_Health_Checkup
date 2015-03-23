@@ -12,7 +12,8 @@
         var urlString = document.URL +"?trunk=";
         var selectedVideo = obj.options[obj.selectedIndex];
         if (selectedVideo.value != "nothing"){
-                window.location = urlString + selectedVideo.value;
+                url = urlString + selectedVideo.value;
+                window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=1000, left=1000, width=1000, height=1000");
         }
     }
 </script>

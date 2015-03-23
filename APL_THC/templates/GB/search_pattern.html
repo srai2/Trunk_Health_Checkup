@@ -11,7 +11,12 @@
 </head>
 <body>
     <div id="header">
+        {% if patterns %}
+            <h3>Details of Trunk</h3>
+        {% endif %}
+        {% if route_pattern_status %}
             <h3>Details of Route Pattern</h3>
+        {% endif %}
         </div>
 
 <div id="nav2" >
@@ -29,6 +34,7 @@
                     <th>Device Pool</th>
                  <th>Route Pattern</th>
                 </tr>
+                {% if route_pattern_status %}
                 {% for patterns in route_pattern_status %}
                 {% for pattern in patterns %}
                     <tr >
@@ -43,6 +49,22 @@
                     </tr>
                 {% endfor %}
                 {% endfor %}
+                {% endif %}
+                </tr>
+                {% if patterns %}
+                {% for pattern in patterns %}
+                    <tr >
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk.cluster}}</font></td>
+                        <td><b  style="display:block;font-weight:bold" ><font color="blue">{{ pattern.trunk.name }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ pattern.trunk.status }}</font> </td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.sip_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.security_profile }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.trp }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue">{{ pattern.trunk.device_pool }}</font></td>
+                        <td><b style="display:block;font-weight:bold"><font color="blue"> {{ pattern.pattern }}</font></td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
             </table>
         </div>
 
